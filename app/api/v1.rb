@@ -1,9 +1,9 @@
 module Signin
-    class v1 < Grape::API
+    class V1 < Grape::API
 
         class << self
-            include Namespace::v1
-            include Signin::v1
+            include Activity::v1
+            include Sign::v1
         end
 
         format :json
@@ -15,5 +15,7 @@ module Signin
 #            def request
 #                @request ||= ::Rack::Request.new(env)
 #            end
+        load_activity
+        load_sign
     end
 end
