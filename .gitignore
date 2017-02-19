@@ -1,0 +1,4 @@
+config/settings.rb
+config/database.yml
+*.swp
+*.sqlite3
