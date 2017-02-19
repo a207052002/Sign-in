@@ -1,10 +1,11 @@
 ENV['RACK_ENV']||='test'
+$no_log = true
 
 require 'airborne'
-#require 'spec_helper'  reverse word?
-#require './environment'
-#require './app'
-#require './spec/spec_data.rb'
+require 'spec_helper'
+require './environment'
+require './app'
+require './spec/spec_data.rb'
 
 RSpec.configure do |config|
     config.color = true
@@ -12,13 +13,13 @@ RSpec.configure do |config|
 end
 
 Airborne.configuration do |config|
-#   config.rack_app = Signin::API
+   config.rack_app = Signin::API
    config.headers = {'X-forwarded-for' => '127.0.0.1'}
 end
 
 describe 'Signin::API' do
 
-    base_url = '/activities'
+    base_url = '/activities/v1'
 
 #supposed to be token
     #

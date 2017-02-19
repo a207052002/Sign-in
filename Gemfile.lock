@@ -1,6 +1,12 @@
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
+    actionview (5.0.1)
+      activesupport (= 5.0.1)
+      builder (~> 3.1)
+      erubis (~> 2.7.0)
+      rails-dom-testing (~> 2.0)
+      rails-html-sanitizer (~> 1.0, >= 1.0.2)
     activemodel (5.0.1)
       activesupport (= 5.0.1)
     activerecord (5.0.1)
@@ -32,6 +38,7 @@ GEM
     domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
+    erubis (2.7.0)
     grape (0.19.1)
       activesupport
       builder
@@ -52,7 +59,23 @@ GEM
       domain_name (~> 0.5)
     i18n (0.7.0)
     ice_nine (0.11.2)
+    json (2.0.3)
+    kaminari (1.0.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.0.1)
+      kaminari-activerecord (= 1.0.1)
+      kaminari-core (= 1.0.1)
+    kaminari-actionview (1.0.1)
+      actionview
+      kaminari-core (= 1.0.1)
+    kaminari-activerecord (1.0.1)
+      activerecord
+      kaminari-core (= 1.0.1)
+    kaminari-core (1.0.1)
+    loofah (2.0.3)
+      nokogiri (>= 1.5.9)
     mime-types (2.99.3)
+    mini_portile2 (2.1.0)
     minitest (5.10.1)
     multi_json (1.12.1)
     multi_xml (0.6.0)
@@ -61,6 +84,8 @@ GEM
     mustermann-grape (0.4.0)
       mustermann (= 0.4.0)
     netrc (0.11.0)
+    nokogiri (1.7.0.1)
+      mini_portile2 (~> 2.1.0)
     otr-activerecord (1.2.0)
       activerecord (>= 4.0, < 5.1)
       hashie-forbidden_attributes (~> 0.1)
@@ -69,6 +94,12 @@ GEM
       rack (>= 0.4)
     rack-test (0.6.3)
       rack (>= 1.0)
+    rails-dom-testing (2.0.2)
+      activesupport (>= 4.2.0, < 6.0)
+      nokogiri (~> 1.6)
+    rails-html-sanitizer (1.0.3)
+      loofah (~> 2.0)
+    rake (12.0.0)
     rest-client (1.8.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
@@ -107,9 +138,12 @@ DEPENDENCIES
   airborne
   grape
   grape-entity
+  json
+  kaminari
   otr-activerecord
+  rake
   rspec
   sqlite3
 
 BUNDLED WITH
-   1.13.7
+   1.14.4
