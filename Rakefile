@@ -4,9 +4,10 @@ require 'rspec/core/rake_task'
 
 load 'tasks/otr-activerecord.rake'
 
-Rspec::Core::RakeTask.new(:spec)
+RSpec::Core::RakeTask.new(:spec)
 
 namespace :db do
+    ENV['RACK_ENV'] ||= 'test'
   task :environment do
     require './environment'
   end
@@ -20,12 +21,12 @@ namespace :activity do
     task :insert, [:name, :uid, :start, :end] do |t, args|
     require './environment'
     require './app/models/activity'
-    DB::Activities.create(name:args.name, date_end: itime(args.end), date_start: itime(args.start), creator_id: args.uid)
+    DB::Activity.create(name:args.name, date_end: itime(args.end), date_start: itime(args.start), creator_id: args.uid)
   end
 end
 
 task :default do
-  ENV['RACK_ENV'] = 'test'
+  ENV['RACK_ENV'] ||= 'test'
   require './environment'
   require './app'
   Rake::Task['db:reset'].invoke

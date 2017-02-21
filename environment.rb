@@ -8,6 +8,8 @@ require 'json'
 require 'rest-client'
 require 'active_record'
 require 'grape-entity'
+require './app/models/activity'
+require './app/models/sign'
 require './config/settings'
 
 OTR::ActiveRecord.configure_from_file! 'config/database.yml'
