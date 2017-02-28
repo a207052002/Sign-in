@@ -11,6 +11,6 @@ require 'grape-entity'
 require './app/models/activity'
 require './app/models/sign'
 require './config/settings'
-
+load "tasks/otr-activerecord.rake"
 OTR::ActiveRecord.configure_from_file! 'config/database.yml'
 ActiveRecord::Base.default_timezone = :local

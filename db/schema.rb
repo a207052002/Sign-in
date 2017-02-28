@@ -8,9 +8,9 @@ ActiveRecord::Schema.define(version:2017) do
   end
 
   create_table "signs" , force: :cascade do |t|
-    t.integer "activity_id"
-    t.integer "user_id"
+    t.integer "activity_id", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
-    t.index([:activity_id], name:"index_signs_on_activity_id")
+    t.index [:activity_id], name:"index_signs_on_activity_id"
   end
 end
