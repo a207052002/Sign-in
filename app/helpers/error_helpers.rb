@@ -14,7 +14,7 @@ module HTTP
       end
 
       def token_missing!
-        error! 'Access_token is missing',400
+        error! 'Access_token is missing', 400
       end
 
       def token_error! code

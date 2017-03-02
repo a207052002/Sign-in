@@ -2,7 +2,6 @@ module NCU
   module OAuth
     module Helpers
       def token_string
-        return @token_string unless @token_string.nil?
         @tokne_string ||= headers['AUTHORIZATION'][/^Bearer (.*)/,1]
       end
 
@@ -18,11 +17,11 @@ module NCU
         return @access_token unless @access_token.nil?
         return @access_token = 400 if token_string.nil?
         if token_info.code == 200
-          res = JSON.parse(token_info.body,symbolize_names: true)
-          return @access_token = res unless res[:resource_owner_id].nil?
+          res = JSON.parse(token_info.body, symbolize_names: true)
+          @access_token = res unless res[:resource_owner_id].nil?
+        else
           @access_token = 401
         end
-        @access_token
       end
     end
   end

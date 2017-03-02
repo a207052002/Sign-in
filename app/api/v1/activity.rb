@@ -10,10 +10,9 @@ module Signin
             end
 
             get do
-              token_error! access_token
+              token_error!(access_token) unless access_token == 200
               token_missing! if access_token == 400
               not_found! 'activity' unless _activity = DB::Activity.find_by(id: params[:id])
-              forbidden! unless access_token == 401
               Entities::Activity.represent _activity
             end
 
@@ -23,51 +22,52 @@ module Signin
               require :date_started, type: Integer, desc:'start'
               require :date_ended, type: Integer, desc:'end'
             end
+
             put do
-              token_error! access_token
-              token_missing! access_token == 400
+              token_error!(access_token) unless access_token == 200
+              token_missing! if access_token == 400
               not_found! 'activity' unless _activity = DB::Activity.find_by(id: params[:id])
               not_found! 'creator' unless _activity.creator_id  == access_token[:resource_owner_id]
               _activity.name = params[:name]
-              _activity.date_end = itime params[:date_ended]
-              _activity.date_start = itime params[:date_started]
+              _activity.date_end = params[:date_ended].to_t
+              _activity.date_start = params[:date_started].to_t
               _activity.save
               Entities::Activity.represent _activity
             end
 
             desc 'delete a activity'
             delete do
-              token_error! access_token
-              token_missing! access_token == 400
+              token_error!(access_token) unless access_token == 200
+              token_missing! if access_token == 400
               not_found! 'activity'  unless _activity == DB::Activity.find_by(id: params[:id])
               not_found! 'creator' unless _activity.creator_id == access_token[:resource_owner_id]
               Entities::Activity.represent _activity.destroy
             end
           end
+          desc 'create an activity'
           params do
             require :name, type: String, desc: 'name of the activity'
             require :date_started, type: Integer, desc: 'start'
             require :date_ended, type: Integer, desc: 'end'
           end
           post do
-            token_error! access_token
-            token_missing! access_token == 400
-            _activity = DB::Activity.create!(name: params[:name], date_start: itime params[:date_started], date_ended: itime params[:date_ended])
+            token_error!(access_token) unless access_token == 200
+            token_missing! if access_token == 400
+            _activity = DB::Activity.create!(name: params[:name], date_start: params[:date_started].to_t, date_ended: params[:date_ended].to_t)
             Entities::Activity.represent _activity
           end
 
+          desc'get activities of a creator'
           params do
-            optional :page
-            optional :size
+            optional :page, type: Integer, default: 1, desc: 'page for app'
+            optional :size, type: Integer, default: 10, desc: 'page for app'
           end
           get do
-            token_error! access_token
-            token_missing! access_token == 400
-            not_found! unless _activities = DB::Activity.find_by(creator_id: params[:id])
-            not_found! unless paged = _activities.page(params[:page]).per(params[:size]).out_of_range?
-            paged = _activities.page(params[:paga]).per(params[:size])
-            data = Entities::Activities.represent(paged)
-            data.merge! pagaMetadata: [size: params[:size], totalElements: _activities.count, totalPages: paged.total_pages, number: paged.size]
+            token_error!(access_token) unless access_token == 200
+            token_missing! if access_token == 400
+            _activities = DB::Activity.where(creator_id: params[:id]).page(params[:page]).per(params[:size])
+            not_found! if _activities.out_of_range?
+            Entities::Activities.represent({ content: _activities, page_meta_data:{ size: params[:size], total_elements: _activities.total_count, total_pages: _activities.total_pages, number: _activities.count } })
           end
         end
       end

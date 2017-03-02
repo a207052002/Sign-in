@@ -141,7 +141,9 @@ DEPENDENCIES
   json
   kaminari
   otr-activerecord
+  rack
   rake
+  rest-client
   rspec
   sqlite3
 
