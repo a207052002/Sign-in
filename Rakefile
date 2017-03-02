@@ -7,7 +7,6 @@ require './app'
 load 'tasks/otr-activerecord.rake'
 
 RSpec::Core::RakeTask.new(:spec)
-ENV['RACK_ENV']||='test'
 
 namespace :db do
   task :environment do
@@ -35,7 +34,7 @@ namespace :activity do
     require './environment'
     require './app/models/activity'
     require './app/models/sign'
-    RestClient::Request.execute verify_ssl: false, method: :get, url: Settings::OAUTH_ACCESS_TOKEN_URL, headers:{authorization: "Bearer #{args.token}"} do |response, request, result, &block|
+    RestClient::Request.execute verify_ssl: false, method: :get, url: 'http://localhost:9292/signin/v1/activities', headers:{'Authorization': "Bearer #{args.token}"} do |response, request, result, &block|
       res = JSON.parse(response.body,symbolize_names: true) 
       puts 'Not Found!' if res.nil?
       puts "Found id:#{res[:resource_owner_id]}"

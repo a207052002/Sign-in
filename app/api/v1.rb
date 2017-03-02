@@ -6,7 +6,7 @@ module Signin
     end
 
     format :json
-    content_type :json
+    content_type :json, 'application/json;charset=UTF-8'
     helpers HTTP::Error::Helpers
     helpers NCU::OAuth::Helpers
     load_activity

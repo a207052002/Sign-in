@@ -2,7 +2,7 @@ module Signin
   module Entities
     ##full info (id, name, date start/end/creat, creatorid)
     class Activity < Grape::Entity
-      expose :activity_id, as: :id, documentation: { type: 'string', dsec:'id', required: true }
+      expose :id, as: :id, documentation: { type: 'string', dsec:'id', required: true }
       expose :name, documentation: { type: 'string', desc: 'name', required: true }
       expose :date_start, as: :dateStarted, documentation: { type: 'DateTime', desc: 'beginning of an activity', require: true }
       expose :date_end, as: :dateEnded, documentation: { type: 'DateTime', desc: 'end of an activity', require: true}
@@ -32,7 +32,7 @@ module Signin
     ##'content':[{fullinfo}],'pagemetadata':{}
     class Activities < Grape::Entity
       expose :content, using: Activity, documentation: { is_array: true }
-      expose :page_meta_data, using: Page_metadata, as: :pageMetadata
+      expose :page_metadata, using: Page_metadata, as: :pageMetadata
     end
   end
 end
