@@ -10,7 +10,7 @@ module Signin
                 requires :userId, type: String, desc: 'id'
               end
               post do
-                not_found! unless sign = DB::Activity.find_by(creator_id: access_token[:resource_owner_id]).signs.create!(user_id: params[:userId])
+                not_found! unless sign = DB::Activity.where(creator_id: access_token[:resource_owner_id]).find_by(id: params[:id]).signs.create!(user_id: params[:userId])
                 Entities::Sign.represent sign
               end
 
@@ -20,8 +20,8 @@ module Signin
                 optional :size, type: Integer, default: 10
               end
               get do
-                not_found! unless activity = DB::Activity.find_by(creator_id: access_token[:resource_owner_id])
-                signs = activity.signs.page(params[:paga]).per(params[:size])
+                not_found! unless activity = DB::Activity.where(creator_id: access_token[:resource_owner_id]).find_by(params[:id])
+                signs = activity.signs.page(params[:page]).per(params[:size])
                 not_found! if signs.out_of_range?
                 Entities::Signs.represent({ content: signs, paga_metadata:{ size: params[:size], total_elements: signs.total_count, total_pages: signs.total_pages, number: signs.count } })
               end
