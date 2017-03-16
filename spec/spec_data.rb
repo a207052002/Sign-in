@@ -1,0 +1,3 @@
+module TestData
+  BEARER_TOKEN = 'de81f2f1c2dc069b7747556b8cf3fe66daeb82930f26439573b232e878e4a3b2'
+end

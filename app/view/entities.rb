@@ -4,9 +4,15 @@ module Signin
     class Activity < Grape::Entity
       expose :id, as: :id, documentation: { type: 'string', dsec:'id', required: true }
       expose :name, documentation: { type: 'string', desc: 'name', required: true }
-      expose :date_start, as: :dateStarted, documentation: { type: 'DateTime', desc: 'beginning of an activity', require: true }
-      expose :date_end, as: :dateEnded, documentation: { type: 'DateTime', desc: 'end of an activity', require: true}
-      expose :created_at, as: :dateCreated, documentation: { type: 'DataTime', desc: 'time datas create at', require: true }
+      expose :dateStarted, documentation: { type: 'DateTime', desc: 'beginning of an activity', require: true } do |activity, options|
+        activity.date_start.to_i * 1000
+      end
+      expose :dateEnded, documentation: { type: 'DateTime', desc: 'end of an activity', require: true } do |activity, options|
+        activity.date_end.to_i * 1000
+      end
+      expose :dateCreated, documentation: { type: 'DataTime', desc: 'time datas create at', require: true } do |activity, options|
+          activity.created_at.to_i * 1000
+      end
       expose :creator_id, as: :creatorId, documentation: { type: 'Integer', desc: 'activity creator', require: true }
     end
 
@@ -20,7 +26,9 @@ module Signin
     ##userid, datecreat
     class Sign < Grape::Entity
       expose :user_id, as: :userId
-      expose :created_at, as: :dateCreated
+      expose :dateCreated do |sign, options|
+        sign.created_at.to_i * 1000
+      end
     end
 
     ##'content':{'uid':'xxx', 'datecreat': xxx}, 'pageMetadata':{}

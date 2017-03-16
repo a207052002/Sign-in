@@ -13,6 +13,6 @@ ActiveRecord::Base.default_timezone = :local
 
 class Integer
   def to_t
-    time.at(self/1000)
+    Time.at(self/1000)
   end
 end

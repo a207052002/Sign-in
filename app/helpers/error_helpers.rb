@@ -24,7 +24,7 @@ module HTTP
         when 403
           error! 'insuffcient_scope', 403
         when 400
-          error! 'Access_token is missing', 400
+          error! "Access_token is missing", 400
         end
       end
     end

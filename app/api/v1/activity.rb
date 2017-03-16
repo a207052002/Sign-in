@@ -17,14 +17,14 @@ module Signin
             desc 'Update a activity'
             params do
               requires :name, type: String, desc:'name of the activity'
-              requires :date_started, type: Integer, desc:'start'
-              requires :date_ended, type: Integer, desc:'end'
+              requires :dateStarted, type: Integer, desc:'start'
+              requires :dateEnded, type: Integer, desc:'end'
             end
             put do
               not_found! 'activity' unless _activity = DB::Activity.where(creator_id: access_token[:resource_owner_id]).find_by(id: params[:id])
               _activity.name = params[:name]
-              _activity.date_end = params[:date_ended].to_t
-              _activity.date_start = params[:date_started].to_t
+              _activity.date_end = params[:dateEnded].to_t
+              _activity.date_start = params[:dateStarted].to_t
               _activity.save
               Entities::Activity.represent _activity
             end
@@ -38,12 +38,12 @@ module Signin
           desc 'create an activity'
           params do
             requires :name, type: String, desc: 'name of the activity'
-            requires :date_started, type: Integer, desc: 'start'
-            requires :date_ended, type: Integer, desc: 'end'
+            requires :dateStarted, type: Integer, desc: 'start'
+            requires :dateEnded, type: Integer, desc: 'end'
           end
           post do
-            _activity = DB::Activity.create!(name: params[:name], date_start: params[:date_started].to_t, date_ended: params[:date_ended].to_t, creator_id: access_token[:resource_owner_id])
-            Entities::Activity.represent _activity
+            _activity = DB::Activity.create!(name: params[:name], date_start: params[:dateStarted].to_t, date_end: params[:dateEnded].to_t, creator_id: access_token[:resource_owner_id])
+            Entities::Activity.represent(_activity, only: [:name, :dateStarted, :dateEnded])
           end
 
           desc'get activities of a creator'
