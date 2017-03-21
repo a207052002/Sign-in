@@ -7,8 +7,10 @@ require 'rest-client'
 require 'otr-activerecord'
 require 'active_record'
 require 'grape-entity'
+require 'rack/cors'
+
 require './config/settings'
-OTR::ActiveRecord.configure_from_file! 'config/database.yml'
+OTR::ActiveRecord.configure_from_file! '/home/a207052002/Sign-in/config/database.yml'
 ActiveRecord::Base.default_timezone = :local
 
 class Integer

@@ -1,8 +1,6 @@
 require 'bundler/setup'
 require 'rspec/core'
 require 'rspec/core/rake_task'
-require './environment.rb'
-require './app'
 
 load 'tasks/otr-activerecord.rake'
 
@@ -35,7 +33,7 @@ namespace :activity do
     require './app/models/activity'
     require './app/models/sign'
     RestClient::Request.execute verify_ssl: false, method: :get, url: 'http://localhost:9292/signin/v1/activities', headers:{'Authorization': "Bearer #{args.token}"} do |response, request, result, &block|
-      res = JSON.parse(response.body,symbolize_names: true) 
+      res = JSON.parse(response.body,symbolize_names: true)
       puts 'Not Found!' if res.nil?
       puts "Found id:#{res[:resource_owner_id]}"
       puts "Expires:#{res[:expires_in_seconds]}"
@@ -44,9 +42,10 @@ namespace :activity do
 end
 
 task :default do
-  ENV['RACK_ENV'] ||= 'test'
-  require './environment'
+  ENV['RACK_ENV'] = 'test'
+  require './environment.rb'
   require './app'
+  Rake::Task['db:environment:set'].invoke
   Rake::Task['db:reset'].invoke
   Rake::Task['spec'].invoke
 end

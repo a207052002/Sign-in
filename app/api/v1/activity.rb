@@ -25,14 +25,15 @@ module Signin
               _activity.name = params[:name]
               _activity.date_end = params[:dateEnded].to_t
               _activity.date_start = params[:dateStarted].to_t
-              _activity.save
+              _activity.save!
               Entities::Activity.represent _activity
             end
 
             desc 'delete a activity'
             delete do
-              not_found! 'activity'  unless _activity == DB::Activity.where(creator_id: params[:access_token]).find_by(id: params[:id])
-              Entities::Activity.represent _activity.destroy
+              not_found! 'activity'  unless _activity = DB::Activity.where(creator_id: access_token[:resource_owner_id]).find_by(id: params[:id])
+              _activity.destroy
+              body false
             end
           end
           desc 'create an activity'

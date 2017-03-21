@@ -16,7 +16,7 @@ module Signin
       expose :creator_id, as: :creatorId, documentation: { type: 'Integer', desc: 'activity creator', require: true }
     end
 
-    class Page_metadata < Grape::Entity
+    class PageMetadata < Grape::Entity
       expose :size
       expose :total_elements, as: :totalElements
       expose :total_pages, as: :totalPages
@@ -34,13 +34,13 @@ module Signin
     ##'content':{'uid':'xxx', 'datecreat': xxx}, 'pageMetadata':{}
     class Signs < Grape::Entity
       expose :content, using: Sign
-      expose :page_metadata, using: Page_metadata, as: :pageMetadata
+      expose :page_metadata, using: PageMetadata, as: :pageMetadata
     end
 
     ##'content':[{fullinfo}],'pagemetadata':{}
     class Activities < Grape::Entity
       expose :content, using: Activity, documentation: { is_array: true }
-      expose :page_metadata, using: Page_metadata, as: :pageMetadata
+      expose :page_metadata, using: PageMetadata, as: :pageMetadata
     end
   end
 end
